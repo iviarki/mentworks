@@ -8,5 +8,4 @@ end
 
 execute "rebuild-iptables" do
   command "/usr/sbin/myiptables"
-  action :nothing
 end
