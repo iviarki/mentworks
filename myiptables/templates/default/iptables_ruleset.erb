@@ -1,0 +1,18 @@
+#!/bin/bash
+modprobe ip_tables
+iptables -F
+iptables -X
+iptables -Z
+
+iptables -P INPUT DROP
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+iptables -A INPUT  -i lo -j ACCEPT
+
+# Ports for http
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 8889 -j ACCEPT
+iptables -A INPUT -s <%= @theworkip %> -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
