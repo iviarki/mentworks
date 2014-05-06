@@ -13,6 +13,14 @@ execute "Install mod_antiloris" do
 	command "apxs -a -i -c mod_antiloris.c"
 end
 
+execute "Make module available" do
+	command "echo \"LoadModule mod_antiloris /usr/lib64/httpd/modules/mod_antiloris.so\" >> #{node[:apache][:dir]}/mods-available/mod_antiloris.load"
+end
+
+apache_module "mod_antiloris" do
+  enable true
+end
+
 execute "Restart Apache" do
     command "service httpd restart"
 end
